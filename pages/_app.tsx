@@ -14,7 +14,7 @@ export const client = NillionClient.create({
     );
     return {
       signer,
-      endpoint: process.env.NEXT_PUBLIC_NILLION_NILCHAIN_JSON_RPC,
+      endpoint: process.env.NEXT_PUBLIC_NILLION_ENDPOINT,
       cluster: process.env.NEXT_PUBLIC_NILLION_CLUSTER_ID,
       bootnodes: [process.env.NEXT_PUBLIC_NILLION_BOOTNODE_WEBSOCKET],
       chain: process.env.NEXT_PUBLIC_CHAIN,
