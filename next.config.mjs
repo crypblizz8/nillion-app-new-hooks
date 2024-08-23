@@ -40,9 +40,8 @@ const nextConfig = {
   async rewrites() {
     return [
       {
-        source: "/nilchain",
-        // destination: "http://127.0.0.1:48102/",
-        destination: process.env.NEXT_PUBLIC_NILLION_NILCHAIN_JSON_RPC,
+        source: "/nilchain-proxy/:path*",
+        destination: `${process.env.NEXT_PUBLIC_NILLION_NILCHAIN_JSON_RPC}/:path*`,
       },
     ];
   },
