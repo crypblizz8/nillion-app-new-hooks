@@ -4,7 +4,7 @@ import { createSignerFromKey } from "@nillion/client-payments";
 import { NillionClientProvider } from "@nillion/client-react-hooks";
 import { NillionClient } from "@nillion/client-vms";
 import type { AppProps } from "next/app";
-import '../styles/globals.css';
+import "../styles/globals.css";
 
 export const client = NillionClient.create({
   network: NamedNetwork.enum.Devnet,
@@ -14,7 +14,7 @@ export const client = NillionClient.create({
     );
     return {
       signer,
-      endpoint: process.env.NEXT_PUBLIC_NILLION_ENDPOINT,
+      endpoint: process.env.NEXT_PUBLIC_NILLION_NILCHAIN_JSON_RPC,
       cluster: process.env.NEXT_PUBLIC_NILLION_CLUSTER_ID,
       bootnodes: [process.env.NEXT_PUBLIC_NILLION_BOOTNODE_WEBSOCKET],
       chain: process.env.NEXT_PUBLIC_CHAIN,
