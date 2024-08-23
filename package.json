@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@keplr-wallet/types": "^0.12.123",
     "@nillion/client-core": "^0.1.0-rc.11",
     "@nillion/client-react-hooks": "^0.1.0-rc.11",
     "@nillion/client-vms": "^0.1.0-rc.11",
