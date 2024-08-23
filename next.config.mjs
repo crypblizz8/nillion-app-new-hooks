@@ -41,7 +41,8 @@ const nextConfig = {
     return [
       {
         source: "/nilchain",
-        destination: "http://127.0.0.1:48102/",
+        // destination: "http://127.0.0.1:48102/",
+        destination: process.env.NEXT_PUBLIC_NILLION_NILCHAIN_JSON_RPC,
       },
     ];
   },
