@@ -1,12 +1,10 @@
 import * as React from "react";
 import {
-  useSetPermissions,
   useRunProgram,
   useStoreValue,
   useStoreProgram,
   useNillion,
   useFetchProgramOutput,
-  useFetchPermissions,
 } from "@nillion/client-react-hooks";
 import { useEffect, useState } from "react";
 import {
@@ -23,91 +21,32 @@ import {
 import { transformNadaProgramToUint8Array } from "@/utils/transformNadaProgramToUint8Array";
 
 export default function Compute() {
-  const [selectedProgramCode, setSelectedProgramCode] = useState();
-  //TODO Loading States
-  const [loadingStoringProgram, setLoadingStoringProgram] = useState(false);
-  const [secretValue1, setSecretValue1] = useState<number>(0);
-  const [secretValue2, setSecretValue2] = useState<number>(0);
-  const [programID, setProgramID] = useState<ProgramId>();
-  const [secretValue1ID, setSecretValue1ID] = useState<StoreId>();
-  const [secretValue2ID, setSecretValue2ID] = useState<StoreId>();
-  const [partyID, setPartyID] = useState<PartyId>();
-  const PARTY_NAME = "Party1" as PartyName;
-  const PROGRAM_NAME = "secret_addition";
-  const [computeResult, setComputeResult] = useState<any | null>(null);
-  const [computeID, setComputeID] = useState<any | null>(null);
-
+  // Use of Nillion Hooks
   const client = useNillion();
   const storeProgram = useStoreProgram();
   const storeValue = useStoreValue();
   const runProgram = useRunProgram();
 
+  // UseStates
+  const [selectedProgramCode, setSelectedProgramCode] = useState("");
+  const [secretValue1, setSecretValue1] = useState<number>(0);
+  const [secretValue2, setSecretValue2] = useState<number>(0);
+  const [programID, setProgramID] = useState<ProgramId>();
+  const [secretValue1ID, setSecretValue1ID] = useState<StoreId>();
+  const [secretValue2ID, setSecretValue2ID] = useState<StoreId>();
+  const [computeResult, setComputeResult] = useState<any | null>(null);
+  const [computeID, setComputeID] = useState<any | null>(null);
+
+  // Other CONSTS
+  const PARTY_NAME = "Party1" as PartyName;
+  const PROGRAM_NAME = "secret_addition";
+
+  // Use of FetchProgram Hook
   const fetchProgram = useFetchProgramOutput({
     id: computeID,
   });
 
-  //   useEffect(() => {
-  //     if (client?.ready && client.vm.partyId) {
-  //       console.log("Client ready, partyId:", client.vm.partyId);
-  //       setPartyID(client.vm.partyId);
-  //     }
-  //   }, [client?.ready, client?.vm.partyId]);
-
-  //   const handleUseProgram = async () => {
-  //     try {
-  //       const bindings = ProgramBindings.create(programID!);
-  //       bindings.addInputParty(PARTY_NAME as PartyName, partyID as PartyId);
-  //       bindings.addOutputParty(PARTY_NAME as PartyName, partyID as PartyId);
-
-  //       const values = NadaValues.create();
-  //       values.insert("my_int1" as NamedValue, secretValue1ID as StoreId);
-  //       values.insert("my_int2" as NamedValue, secretValue2ID as StoreId);
-
-  //       const res = await runProgram.mutate({
-  //         bindings: bindings as ProgramBindings,
-  //         values: values,
-  //         storeIds: [secretValue1ID, secretValue2ID] as StoreId[],
-  //       });
-
-  //       console.log("Program executed successfully:", res);
-  //     } catch (error) {
-  //       console.error("Error executing program:", error);
-  //       throw error;
-  //     }
-  //   };
-
-  //   const handleUseProgram = async () => {
-  //     try {
-  //       // Bindings
-  //       const bindings = ProgramBindings.create(programID!);
-  //       bindings.addInputParty(PARTY_NAME as PartyName, partyID as PartyId);
-  //       bindings.addOutputParty(PARTY_NAME as PartyName, partyID as PartyId);
-
-  //       const values = NadaValues.create()
-  //         .insert(
-  //           NamedValue.parse("my_int1"),
-  //           NadaValue.createSecretInteger(secretValue1)
-  //         )
-  //         .insert(
-  //           NamedValue.parse("my_int2"),
-  //           NadaValue.createSecretInteger(secretValue2)
-  //         );
-
-  //       const res = await runProgram.mutateAsync({
-  //         bindings: bindings as ProgramBindings,
-  //         values,
-  //         storeIds: [secretValue1ID, secretValue2ID] as StoreId[],
-  //       });
-
-  //       console.log("-----");
-  //       console.log("Program executed successfully:", res);
-  //       setComputeResult(res);
-  //     } catch (error) {
-  //       console.error("Error executing program:", error);
-  //       throw error;
-  //     }
-  //   };
-
+  // Handle using the secret_addition Program
   const handleUseProgram = async () => {
     try {
       // Bindings
@@ -134,23 +73,10 @@ export default function Compute() {
       const res = await runProgram.mutateAsync({
         bindings: bindings,
         values,
-        // storeIds: [secretValue1ID, secretValue2ID] as StoreId[],
         storeIds: [],
       });
 
-      console.log("Program executed successfully:", res);
       setComputeID(res);
-      console.log("computer ID ----", computeID);
-      //   const outputres = await client.fetchProgramOutput({
-      //     id: res,
-      //   });
-
-      //   const outputres = await fetchProgram({
-      //     id: res,
-      //   });
-      //   console.log("fetchProgram $$$", await fetchProgram.data);
-
-      //   setComputeResult(outputres?.ok?.my_output.toString());
     } catch (error) {
       console.error("Error executing program:", error);
       throw error;
@@ -159,11 +85,12 @@ export default function Compute() {
 
   useEffect(() => {
     if (fetchProgram.data) {
-      //   console.log("Program output:", fetchProgram.data.my_output.toString());
+      //@ts-ignore
       setComputeResult(fetchProgram.data.my_output.toString());
     }
   }, [fetchProgram.data]);
 
+  // Action to handle storing secret integer 1
   const handleStoreSecretInteger1 = async () => {
     try {
       const permissions = Permissions.create().allowCompute(
@@ -173,18 +100,18 @@ export default function Compute() {
 
       const result = await storeValue.mutateAsync({
         values: {
-          mySecretInt: secretValue1, // This will be stored as a SecretInteger
+          mySecretInt: secretValue1,
         },
-        ttl: 3600, // Time to live in seconds (e.g., 1 hour)
+        ttl: 3600,
         permissions,
       });
-      console.log("Stored SecretInteger 1:", result);
       setSecretValue1ID(result);
     } catch (error) {
       console.error("Error storing SecretInteger:", error);
     }
   };
 
+  // Action to handle storing secret integer 2
   const handleStoreSecretInteger2 = async () => {
     try {
       const permissions = Permissions.create().allowCompute(
@@ -195,7 +122,7 @@ export default function Compute() {
         values: {
           mySecretInt: secretValue2,
         },
-        ttl: 3600, // Time to live in seconds (e.g., 1 hour)
+        ttl: 3600,
         permissions,
       });
       console.log("Stored SecretInteger2:", result);
@@ -205,6 +132,7 @@ export default function Compute() {
     }
   };
 
+  // Action to store Program with Nada
   const handleStoreProgram = async () => {
     try {
       const programBinary = await transformNadaProgramToUint8Array(
@@ -232,6 +160,7 @@ export default function Compute() {
 
   return (
     <div className="flex flex-col justify-center min-h-screen p-8">
+      {/* Store Programs Section */}
       <div className="mt-4">
         <h3 className="text-lg font-semibold mb-2">Program Code:</h3>
         <div className="border-2 border-gray-300 rounded-lg p-4 max-h-60 overflow-y-auto bg-white">
@@ -255,6 +184,7 @@ export default function Compute() {
 
       <div className="border-t border-gray-300 my-4"></div>
 
+      {/* Store Secrets Section */}
       <div>
         <h3 className="text-lg font-semibold mb-2 text-left">Store Secret:</h3>
         <p> Store your int_1</p>
@@ -272,7 +202,7 @@ export default function Compute() {
         </button>
 
         {secretValue1ID && (
-          <div className="mt-4">
+          <div className="mt-2">
             <p className="text-sm text-gray-600">
               Secret Value 1 ID: {secretValue1ID}
             </p>
@@ -294,7 +224,7 @@ export default function Compute() {
         </button>
 
         {secretValue2ID && (
-          <div className="mt-4">
+          <div className="mt-2">
             <p className="text-sm text-gray-600">
               Secret Value 2 ID: {secretValue2ID}
             </p>
@@ -314,7 +244,7 @@ export default function Compute() {
           Compute
         </button>
         {computeResult && (
-          <div className="mt-4">
+          <div className="mt-2">
             <p className="text-sm text-gray-600">
               Compute Result: {computeResult}
             </p>

@@ -26,17 +26,33 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  async headers() {
-    return [
-      {
-        source: "/:path*",
-        headers: [
-          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-        ],
-      },
-    ];
-  },
+  headers: [
+    {
+      source: "/(.*)",
+      headers: [
+        {
+          key: "Cross-Origin-Opener-Policy",
+          value: "same-origin",
+        },
+        {
+          key: "Cross-Origin-Embedder-Policy",
+          value: "require-corp",
+        },
+        {
+          key: "Access-Control-Allow-Origin",
+          value: "*",
+        },
+        {
+          key: "Access-Control-Allow-Methods",
+          value: "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+        },
+        {
+          key: "Access-Control-Allow-Headers",
+          value: "X-Requested-With, content-type, Authorization",
+        },
+      ],
+    },
+  ],
   async rewrites() {
     return [
       {
