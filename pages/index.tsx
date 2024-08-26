@@ -13,7 +13,7 @@ export default function Home() {
     },
     {
       staleTime: 1000 * 30, // data stale after 30 seconds
-    },
+    }
   );
 
   const data = 42;
@@ -43,36 +43,40 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <div className="border-xl border">
-      <h2>Hello from @nillion/client-* 👋</h2>
-      <p>Original data: {JSON.stringify(data)}</p>
-      <p>1. Store data</p>
-      <button onClick={handleStoreClick} disabled={storeValue.isPending}>
-        Store
-      </button>
-      <ul>
-        <li>Status: {storeValue.status}</li>
-        {id && <li>Id: {id}</li>}
-      </ul>
-      <p>2. Read data</p>
-      <button
-        onClick={handleFetchClick}
-        disabled={!Boolean(id) || fetchValue.isPending}
-      >
-        Force refresh
-      </button>
-      <ul>
-        <li>Status: {fetchValue.status}</li>
-        <li>Updated at: {updatedAtTs}</li>
-        <li>
-          From cache:{" "}
-          {Boolean(
-            fetchValue.isFetched && !fetchValue.isFetchedAfterMount,
-          ).toString()}
-        </li>
-        {fetchValue.data && <li>Data: {JSON.stringify(fetchValue.data)}</li>}
-      </ul>
+        <h2>Hello from @nillion/client-* sss👋</h2>
+
+        <p className="my-4"> Chain: {process.env.NEXT_PUBLIC_CHAIN}</p>
+        <p className="my-4">
+          Make sure you run "nillion-devnet" as this is on localHost
+        </p>
+        <p>Original data: {JSON.stringify(data)}</p>
+        <p>1. Store data</p>
+        <button onClick={handleStoreClick} disabled={storeValue.isPending}>
+          Store
+        </button>
+        <ul>
+          <li>Status: {storeValue.status}</li>
+          {id && <li>Id: {id}</li>}
+        </ul>
+        <p>2. Read data</p>
+        <button
+          onClick={handleFetchClick}
+          disabled={!Boolean(id) || fetchValue.isPending}
+        >
+          Force refresh
+        </button>
+        <ul>
+          <li>Status: {fetchValue.status}</li>
+          <li>Updated at: {updatedAtTs}</li>
+          <li>
+            From cache:{" "}
+            {Boolean(
+              fetchValue.isFetched && !fetchValue.isFetchedAfterMount
+            ).toString()}
+          </li>
+          {fetchValue.data && <li>Data: {JSON.stringify(fetchValue.data)}</li>}
+        </ul>
       </div>
-      
     </div>
   );
 }
