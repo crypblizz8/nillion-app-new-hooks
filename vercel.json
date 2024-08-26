@@ -1,15 +1,8 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/static-build"
-    }
-  ],
   "rewrites": [
     {
       "source": "/nilchain-proxy",
-      "destination": "https://testnet-nillion-rpc.lavenderfive.com"
+      "destination": "http://65.109.222.111:26657"
     }
   ],
   "headers": [
@@ -38,8 +31,5 @@
         }
       ]
     }
-  ],
-  "env": {
-    "NEXT_PUBLIC_API_BASE_PATH": "/nilchain-proxy"
-  }
+  ]
 }
