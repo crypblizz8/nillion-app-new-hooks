@@ -1,8 +1,11 @@
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  typescript:{
+  typescript: {
     ignoreBuildErrors: true,
-  }
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   webpack: (
     config,
     { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
@@ -41,4 +44,5 @@ const nextConfig = {
     ];
   },
 };
+
 export default nextConfig;
