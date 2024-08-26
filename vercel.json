@@ -9,7 +9,7 @@
   "rewrites": [
     {
       "source": "/nilchain-proxy",
-      "destination": "http://65.109.222.111:26657"
+      "destination": "https://testnet-nillion-rpc.lavenderfive.com"
     }
   ],
   "headers": [
@@ -40,6 +40,6 @@
     }
   ],
   "env": {
-    "REACT_APP_API_BASE_PATH": "/nilchain-proxy"
+    "NEXT_PUBLIC_API_BASE_PATH": "/nilchain-proxy"
   }
 }
