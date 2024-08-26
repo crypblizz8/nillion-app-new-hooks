@@ -18,7 +18,7 @@ export const client = NillionClient.create({
       cluster: process.env.NEXT_PUBLIC_NILLION_CLUSTER_ID,
       bootnodes: [process.env.NEXT_PUBLIC_NILLION_BOOTNODE_WEBSOCKET],
       chain: process.env.NEXT_PUBLIC_CHAIN,
-      // userSeed: "nillion-devnet",
+      userSeed: process.env.NEXT_PUBLIC_NILLION_USER_SEED,
       nodeSeed: Math.random().toString(),
     };
   },

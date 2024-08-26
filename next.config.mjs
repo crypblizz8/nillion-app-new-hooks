@@ -1,8 +1,5 @@
 /** @type {import("next").NextConfig} */
 const nextConfig = {
-  typescript: {
-    ignoreBuildErrors: true,
-  },
   webpack: (
     config,
     { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }
@@ -36,7 +33,7 @@ const nextConfig = {
     return [
       {
         source: "/nilchain",
-        destination: "http://65.109.222.111:26657",
+        destination: "http://127.0.0.1:48102/",
       },
     ];
   },
