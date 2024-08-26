@@ -36,7 +36,7 @@ const nextConfig = {
     return [
       {
         source: "/nilchain",
-        destination: "http://127.0.0.1:48102/",
+        destination: "http://65.109.222.111:26657",
       },
     ];
   },
